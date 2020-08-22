@@ -1,0 +1,25 @@
+.nav-link {
+  padding: 10px;
+  font-size: 25px;
+  color: var(--detail-font-color);
+  text-decoration: none;
+}
+.nav-link:hover {
+  color: rgb(32, 29, 29);
+  transition-duration: 0.2s;
+}
+
+.nav-button {
+  padding: 10px;
+  font-size: 25px;
+  color: var(--detail-font-color);
+  background: var(--detail-color);
+  border-style: none;
+  text-decoration: none;
+}
+
+@media (max-height: 550px) and (max-width: 550px) {
+  .nav-link {
+    font-size: 0.85rem;
+  }
+}

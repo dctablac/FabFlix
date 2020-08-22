@@ -1,0 +1,28 @@
+{
+  "baseUrl": "http://localhost:12345/api/g",
+  "pollLimit": 20,
+  "imageDB": "https://image.tmdb.org/t/p/w300",
+  "imageDBSmall": "https://image.tmdb.org/t/p/w154",
+  "gatewayEPs": {
+    "reportEP": "/report"
+  },
+  "idmEPs": {
+    "loginEP": "/idm/login",
+    "registerEP": "/idm/register"
+  },
+  "moviesEPs": {
+    "searchEP": "/movies/search",
+    "browseEP": "/movies/browse/",
+    "getMovieDetailEP": "/movies/get/"
+  },
+  "billingEPs": {
+    "cartInsertEP": "/billing/cart/insert",
+    "cartUpdateEP": "/billing/cart/update",
+    "cartDeleteEP": "/billing/cart/delete",
+    "cartRetrieveEP": "/billing/cart/retrieve",
+    "cartClearEP": "/billing/cart/clear",
+    "orderPlaceEP": "/billing/order/place",
+    "orderRetrieveEP": "/billing/order/retrieve",
+    "orderCompleteEP": "/billing/order/complete"
+  }
+}
