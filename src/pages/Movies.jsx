@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { imageDB } from "../Config.json";
 
 import MovieSearch from "../services/MovieSearch";
-
+import Loading from "./Loading";
 
 import "../css/common.css";
 
@@ -12,6 +12,8 @@ const localStorage = require("local-storage");
 
 class Movies extends Component {
   state = {
+    loading: false,
+    errorMsg: "",
     placeholder: "ex. Star Wars",
     filters: {
       search_type: "title",
@@ -42,6 +44,14 @@ class Movies extends Component {
   handleSearch = e => {
     e.preventDefault();
 
+    document.getElementById("loading").style.display = "flex"; // Show loading while searching
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    this.setState({
+      errorMsg: ""
+    })
+
     const { filters } = this.state;
 
     const { search, year, director, genre, search_type } = filters;
@@ -49,9 +59,16 @@ class Movies extends Component {
     let email = localStorage.get("email");
     let session_id = localStorage.get("session_id");
 
-    if (search === "" && year === "" && 
-        director === "" && genre === "") {// empty search, do nothing
-      alert("Please enter at least one search criteria.")
+    if (search === "" && year === "" && director === "" && genre === "") { // empty search, do nothing
+      this.setState(
+        {
+          errorMsg: "* Please enter at least one search criteria."
+        }
+      );
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      document.getElementById("loading").style.display = "none";
+
       return;
     }
 
@@ -60,24 +77,33 @@ class Movies extends Component {
         .then(response => this.handleResponse(response))
         .catch(error => this.loginAlert("Please log in to continue."));
     }
-    else { // "title"
+    else { // search by "title"
       MovieSearch.search(filters, email, session_id)
         .then(response => this.handleResponse(response))
         .catch(error => this.loginAlert("Please log in to continue."));
     }
+
   }
 
   handleResponse = response => {
 
     if (response.data.movies === undefined) {
-      alert(response.data.message);
+      this.setState({
+        errorMsg: "* "+response.data.message
+      });
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("movie-search-results").style.display = "none";
       return;
     }
-
     this.setState({movies: response.data.movies});
+    localStorage.set("movies", response.data.movies);
+    document.getElementById("movie-search-results").style.display = "block";
+    document.getElementById("loading").style.display = "none"; // Remove loading after response handled
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////////
+  /* Functions to update filters and state variables */
 
   updateField = e => {
     const { name, value } = e.target;
@@ -154,7 +180,7 @@ class Movies extends Component {
     }), this.updateSearchType);
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////////
+  /* Functions for pagination */
 
   showPages = e => {
     const { filters } = this.state;
@@ -199,7 +225,7 @@ class Movies extends Component {
     }
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////////
+  /* Function to store movie id in localStorage for viewing movie details */ 
 
   setMovieID = id => {
     localStorage.set("movie_id", id)
@@ -209,11 +235,12 @@ class Movies extends Component {
 
   renderMovieCards() {
     const { movies } = this.state;
+
     if (movies.length === 0) {
       return;
     }
     return (
-      <div>
+      <div id="movie-search-results">
         <div className="cards">
           {
             movies.map((movie, i) => (
@@ -225,7 +252,6 @@ class Movies extends Component {
         </div>
         <div className="search-buttons search-bottom">
           <button className="search-button button" onClick={this.prevPage}>Prev</button>
-          <button className="search-button button">Search</button>
           <button className="search-button button" onClick={this.nextPage}>Next</button>
         </div>  
       </div>
@@ -234,12 +260,18 @@ class Movies extends Component {
 
   ////////////////////////////////////////////////////////////////////////////////////////
 
+  componentDidMount() {
+    document.getElementById("loading").style.display = "none";
+  }
+
   render() {
 
-    const { filters, placeholder } = this.state;
+    const { filters, placeholder, errorMsg } = this.state;
 
     return (
       <div className="container">
+          <h2 id="search-error-msg">{errorMsg}</h2>
+          <Loading />
           <form className="search-form" onSubmit={this.handleSearch}>
             <label className="label-search">Search: </label>
 
@@ -252,6 +284,7 @@ class Movies extends Component {
             </select>
 
             <input
+              id="search-bar"
               className="input"
               type="text"
               name="search"

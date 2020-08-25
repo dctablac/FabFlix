@@ -7,7 +7,8 @@ import "../css/common.css";
 class Login extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    msg: ""
   };
 
   handleSubmit = e => {
@@ -20,15 +21,18 @@ class Login extends Component {
       .then(response => {
         
         if (response["data"]["session_id"] !== undefined) {     // Session_id is provided, user logged in
+          document.getElementsByClassName("cred-msg").item(1).style.display = "none";
+          document.getElementById("cred-success").style.display = "flex";  // Inform that user is logged in
           
-          handleLogIn(email, response["data"]["session_id"]);   
-          
-          alert(response["data"]["message"]);                   // Inform that user is logged in
-          
-          history.push("/home");                                // Switch to home page
+          setTimeout(() => {
+            handleLogIn(email, response["data"]["session_id"]);
+            history.push("/home");
+          }, 1500);                                
         }
         else {
-          alert(response["data"]["message"]);
+          this.setState({
+            msg: response["data"]["message"]
+          });
         }
       })
       .catch(error => console.log(error));
@@ -41,22 +45,26 @@ class Login extends Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, msg } = this.state;
 
     return (
       <div>
+        <div className="cred-msg" id="cred-success">Login successful!</div>
+        <div className="cred-msg">
+          {msg}
+        </div>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <label className="label">Email</label>
           <input
-            className="input"
+            className="input cred-input"
             type="email"
             name="email"
             value={email}
             onChange={this.updateField}/>
           <label className="label">Password</label>
           <input
-            className="input"
+            className="input cred-input"
             type="password"
             name="password"
             value={password}

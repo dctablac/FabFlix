@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { NavLink } from "react-router-dom";
 import Billing from "../services/Billing";
 
 
@@ -28,6 +29,7 @@ class Cart extends Component {
         else {
             console.log("Empty cart");
         }
+        document.getElementById("loading").style.display = "none";
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +87,9 @@ class Cart extends Component {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     finishUpdate = response => {
-        alert(response.data.message)
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        document.getElementById("loading").style.display = "flex";
         this.handleResponse();
     }
 
@@ -110,10 +114,10 @@ class Cart extends Component {
 
     makeQuantitySelector = (movie_id, quantity) => {
         return (
-            <form>
-                <input type="number" id="quantity" name="quantity" min="1" max="99" defaultValue={quantity} onChange={this.updateField}/>
-                <button onClick={this.updateCart.bind(null, movie_id)}>Update</button>
-            </form>
+            <div>
+                <input type="number" id="cart-quantity" name="quantity" min="1" max="99" defaultValue={quantity} onChange={this.updateField}/>
+                <button className="button" onClick={this.updateCart.bind(null, movie_id)}>Update</button>
+            </div>
         );
     }
     
@@ -123,7 +127,14 @@ class Cart extends Component {
         if (items !== null) {
             if (items === undefined) {
                 return (
-                    <h1>No Items in Your Cart.</h1>
+                    <Fragment>
+                        <div className="bi-big-icon">
+                            <svg width="10em" height="10em" viewBox="0 0 16 16" className="bi bi-cart4" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                            </svg>
+                        </div>
+                        <h1>No Items in Your Cart.</h1>
+                    </Fragment>
                 )
             }
             return (
@@ -134,12 +145,22 @@ class Cart extends Component {
                             {
                                 items.map( (item, i) => (
                                     <tr key={i}>
-                                        <td><img src={imageDBSmall+items[i].poster_path} alt={items[i].name}/></td>
+                                        <td>
+                                          <NavLink to={"/moviedetails/"+items[i].movie_id}>
+                                            <img src={imageDBSmall+items[i].poster_path} alt={items[i].name}/>
+                                          </NavLink>
+                                        </td>
                                         <td>{items[i].movie_title}</td>
-                                        <td>{this.makeQuantitySelector(items[i].movie_id, items[i].quantity, i)}</td>
-                                        <td>${(items[i].unit_price*items[i].discount).toFixed(2)}</td>
-                                        <td><button onClick={this.deleteItem} id={i}
-                                            className="button">Delete</button></td>
+                                        <td>
+                                          {this.makeQuantitySelector(items[i].movie_id, items[i].quantity, i)}
+                                        </td>
+                                        <td>
+                                          ${(items[i].unit_price*items[i].discount).toFixed(2)}
+                                        </td>
+                                        <td>
+                                          <button onClick={this.deleteItem} id={i}
+                                          className="button">Delete</button>
+                                        </td>
                                     </tr>
                                 ))
                             }
@@ -156,10 +177,6 @@ class Cart extends Component {
 
     componentDidMount() {
         this.handleResponse();
-    }
-
-    componentDidUpdate() {
-        document.getElementById("loading").style.display = "none";
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

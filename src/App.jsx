@@ -29,6 +29,7 @@ class App extends Component {
 
     localStorage.remove("email");
     localStorage.remove("session_id");
+    localStorage.remove("movies");
 
     delete common["email"];
     delete common["session_id"];

@@ -7,7 +7,8 @@ import "../css/common.css";
 class Register extends Component {
     state = {
         email: "",
-        password: ""
+        password: "",
+        msg: ""
     };
 
     handleRegister = e => {
@@ -18,10 +19,13 @@ class Register extends Component {
 
         Idm.register(email, password)
           .then(response => {
-            alert(response["data"]["message"]);     // Result of sending a register request
-            history.push("/login");                 // Redirect to login page
+              document.getElementById("cred-success").style.display = "flex";
+              document.getElementById("reg-box").style.display = "none";
+              setTimeout(()=>{history.push("/login")}, 1500);                 // Redirect to login page
           })
-          .catch(error => alert(error));
+          .catch(error => this.setState({
+              msg: error
+          }));
     };
 
     updateField = e => {
@@ -33,30 +37,34 @@ class Register extends Component {
 
     render() {
 
-        const { email, password } = this.state;
+        const { email, password, msg } = this.state;
 
         return (
             <div>
-                <div className="form-box">
-                    <h1>Register</h1>
-                    <form onSubmit={this.handleRegister}>
-                        <label className="label">Email</label>
-                        <input
-                            className="input"
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={this.updateField}/>
-                        <label className="label">Password</label>
-                        <input
-                            className="input"
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={this.updateField}/>
-                        <button className="button">Register</button>
-                    </form>
-                </div>
+              <div className="cred-msg" id="cred-success">User registered successfully! Redirecting to login.</div>
+              <div className="cred-msg">
+                {msg}
+              </div>
+              <div id="reg-box">
+                <h1>Register</h1>
+                  <form onSubmit={this.handleRegister}>
+                      <label className="label">Email</label>
+                      <input
+                          className="input cred-input"
+                          type="email"
+                          name="email"
+                          value={email}
+                          onChange={this.updateField}/>
+                      <label className="label">Password</label>
+                      <input
+                          className="input cred-input"
+                          type="password"
+                          name="password"
+                          value={password}
+                          onChange={this.updateField}/>
+                      <button className="button">Register</button>
+                  </form>
+              </div>
             </div>
         )
     }

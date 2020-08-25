@@ -29,6 +29,7 @@ class MovieDetails extends Component {
     }
 
     handleDetails = response => {
+
         this.setState(
             {
                 details: response.data.movie
@@ -49,7 +50,12 @@ class MovieDetails extends Component {
         const { movieID, quantity } = this.state;
 
         Billing.cartInsert(movieID, quantity, localStorage.get("email"), localStorage.get("session_id"))
-          .then(response => alert("Item successfully added to your cart."))
+          .then(response => {
+              alert("Item successfully added to your cart."); 
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+              this.props.history.push("/cart");}
+          )
           .catch(error => alert(error));
         
     }
@@ -144,6 +150,9 @@ class MovieDetails extends Component {
 
     componentDidMount() {
 
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
         this.setState(
             {
                 detailURL: window.location.pathname,
@@ -152,6 +161,7 @@ class MovieDetails extends Component {
         setTimeout(() => {document.getElementById("loading").style.display = "none";}, 800);
 
     }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
