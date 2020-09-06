@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import Idm from "../services/Idm";
 
-import "../css/common.css";
 
 class Login extends Component {
   state = {

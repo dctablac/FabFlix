@@ -1,0 +1,41 @@
+#add-to-cart {
+    display: flex;
+    width: 20.7vw;
+    height: 15vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart {
+    width: 75vw;
+    background: white;
+    border: none;
+    border-radius: 0px;
+    box-shadow: 0px 5px 5px grey;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: center;
+}
+
+#cart-quantity {
+    margin-top: 4vh;
+    margin-right: 2vw;
+    height: 4.5rem;
+    width: 4.5rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-radius: 5px;
+}
+
+#order-history {
+    background: white;
+}
+
+#order-complete-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

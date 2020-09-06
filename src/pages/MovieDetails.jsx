@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import MovieSearch from "../services/MovieSearch";
 
 import { imageDB } from "../Config.json";
-
-import "../css/common.css";
 import Billing from "../services/Billing";
-
 import Loading from "./Loading";
+import MovieSearch from "../services/MovieSearch";
 
 const localStorage = require("local-storage");
 

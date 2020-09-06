@@ -60,7 +60,7 @@ class OrderHistory extends Component {
                                 <path fillRule="evenodd" d="M5 15V4H4v11h1zM.5 4h15V3H.5v1zM13 6.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
                             </svg>
                         </div>
-                        <h1>No past orders found.</h1>
+                        <h1>No Past Orders Found.</h1>
                     </Fragment>
                 )
             }

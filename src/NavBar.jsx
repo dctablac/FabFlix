@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { NavLink } from "react-router-dom";
 
-import "./css/style.css";
 
 class NavBar extends Component {
   render() {

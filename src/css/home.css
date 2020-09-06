@@ -1,0 +1,46 @@
+.home-cards {
+    display: flex;
+    justify-content: center;
+    margin: 5vh;
+}
+  
+.home-card {
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    width: 350px;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    margin: 2vw;
+    box-shadow: 0px 5px 5px black;
+    border-radius: 1px;
+    text-decoration: none;
+    background: var(--detail-color);
+    color: white;
+    transition-duration: 0.2s;
+    font-size: 1.5rem;
+}
+
+.home-card:hover {
+    transform: translateY(-2%);
+    box-shadow: 0px 10px 10px black;
+}
+
+.home-card-label {
+    color: white;
+    margin-top: 1rem;
+}
+
+#home-title {
+    letter-spacing: 2vw;
+    font-size: 10rem;
+    font-weight: bold;
+    color: white;
+}
+
+#home-msg {
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+}

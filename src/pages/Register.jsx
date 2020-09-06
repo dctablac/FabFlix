@@ -2,7 +2,6 @@ import React , { Component } from "react";
 
 import Idm from "../services/Idm";
 
-import "../css/common.css";
 
 class Register extends Component {
     state = {
@@ -19,9 +18,18 @@ class Register extends Component {
 
         Idm.register(email, password)
           .then(response => {
-              document.getElementById("cred-success").style.display = "flex";
-              document.getElementById("reg-box").style.display = "none";
-              setTimeout(()=>{history.push("/login")}, 1500);                 // Redirect to login page
+              if (response.data.resultCode !== 110) { // Invalid password or email already in use
+                  this.setState({
+                      msg: response.data.message
+                  });
+              }
+              else { // resultCode == 110 ... User registered successfully
+                  this.setState({
+                      msg: ""
+                  });
+                  document.getElementById("cred-success").style.display = "flex";
+                  setTimeout(()=>{history.push("/login")}, 1500);                 // Redirect to login page
+              }
           })
           .catch(error => this.setState({
               msg: error
@@ -42,9 +50,7 @@ class Register extends Component {
         return (
             <div>
               <div className="cred-msg" id="cred-success">User registered successfully! Redirecting to login.</div>
-              <div className="cred-msg">
-                {msg}
-              </div>
+              <div className="cred-msg">{msg}</div>
               <div id="reg-box">
                 <h1>Register</h1>
                   <form onSubmit={this.handleRegister}>

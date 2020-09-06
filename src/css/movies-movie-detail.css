@@ -1,0 +1,45 @@
+.cards {
+    display: grid;
+    width: 88vw;
+    justify-items: center;
+    background: var(--form-color);
+    padding: 3vw;
+    grid-template-columns: 1fr 1fr 1fr;
+    box-shadow: 0px 5px 5px var(--form-box-shadow);
+    gap: 2vw 2vw;
+}
+
+.movie-card {
+    display: grid;
+    transition: transform box-shadow 0.3s;
+    box-shadow: 0px 5px 5px grey;
+    height: 100%;
+    width: 100%;
+    transition-duration: 0.3s;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 10px 10px black;
+}
+
+.movie-details {
+    display: flex;
+    padding: 2rem;
+}
+
+.movie-details-text {
+    letter-spacing: 1px;
+}
+
+.movie-detail {
+    margin: 1rem;
+}
+
+.movie-detail-poster {
+    object-fit: contain;
+}
+
+#movie-search-results {
+    margin: 2vh;
+}

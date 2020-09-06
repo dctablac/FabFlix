@@ -1,0 +1,14 @@
+.bi-big-icon {
+    text-align: center;
+    margin: 5rem;
+}
+
+.footer {
+    display: grid;
+    position: bottom;
+    background: darkgrey;
+    bottom: 0;
+    height: 20vh;
+    text-align: center;
+    padding: 2rem;
+}

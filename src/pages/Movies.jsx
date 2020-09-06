@@ -3,10 +3,9 @@ import { NavLink } from "react-router-dom";
 
 import { imageDB } from "../Config.json";
 
-import MovieSearch from "../services/MovieSearch";
 import Loading from "./Loading";
+import MovieSearch from "../services/MovieSearch";
 
-import "../css/common.css";
 
 const localStorage = require("local-storage");
 
